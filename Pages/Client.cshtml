@@ -1,0 +1,48 @@
+@page "/client"
+@inject HttpClient Http
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper;
+
+<h1>Client</h1>
+
+<EditForm Model="@client" OnValidSubmit="@ValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Name</label>
+      <InputText  id="name" class="form-control" bind-value="@client.name" placeholder="James Cook">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Phone</label>
+      <InputText id="phone" class="form-control" bind-value="@client.phone" placeholder="600500700">
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <InputText id="email" class="form-control" bind-value="@client.email" placeholder="example@gmail.com">
+  </div>
+  <div class="form-row"><div class="form-group col-md-3">
+      <label for="inputZip">Amount</label>
+      <InputText id="amount" class="form-control" bind-value="@client.amount">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@functions{
+
+    Client client = new Client();
+    class Client
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+        public DateTime regDate { get; set; }
+        public double amount { get; set; }
+        
+    }
+    public void ValidSubmit(){
+        
+    }
+}

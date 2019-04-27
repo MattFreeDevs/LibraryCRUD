@@ -1,0 +1,68 @@
+@page "/admin"
+@inject HttpClient Http
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper;
+
+<h1>Admin Menu</h1>
+
+<p>Clients</p>
+
+@if (clients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Registration date</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in clients)
+            {
+                <tr>
+                    <td>@client.id</td>
+                    <td>@client.name</td>
+                    <td>@client.phone</td>
+                    <td>@client.email</td>
+                    <td>@client.regDate.ToShortDateString()</td>
+                    <td>@client.amount</td>
+                    <td>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" onclick=@AddClient>Add</button>
+}
+@functions{
+    Client[] clients;
+
+    protected override async Task OnInitAsync()
+    {
+        clients = await Http.GetJsonAsync<Client[]>("sample-data/client.json");
+    }
+    void AddClient(){
+        UriHelper.NavigateTo("client");
+    }
+
+    class Client
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+        public DateTime regDate { get; set; }
+        public double amount { get; set; }
+        
+    }
+}
